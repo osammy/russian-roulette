@@ -1,0 +1,165 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="./animate.css" />
+    <style type="text/css">
+        #circles {
+            width: 80%;
+            height: 200px;
+            display: flex;
+            justify-content: space-between;
+            margin: 0px auto;
+        }
+
+        .circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 100px;
+            background-color: grey;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            cursor:pointer;
+            /*display: none;*/
+            visibility: hidden;
+        }
+
+        .red {
+            background: red;
+        }
+
+        .selected {
+            background: #4caf50;
+        }
+
+        #trigger-button {
+            width: 200px;
+            height: 50px;
+            text-align: center;
+            background-color: blue;
+            color: white;
+            font-size: 26px;
+            line-height: 50px;
+            margin: 0px auto;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        #message {
+            background: red;
+            text-align: center;
+            padding: 20px;
+            width: 80%;
+            margin: 0 auto;
+            color: white;
+            opacity: 0.8;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="circles">
+            <div class="circle ">1</div>
+            <div class="circle ">2</div>
+            <div class="circle ">3</div>
+            <div class="circle ">4</div>
+            <div class="circle ">5</div>
+            <div class="circle ">6</div>
+        </div>
+
+        <div id="trigger-button">
+            Fire
+        </div>
+
+
+    </div><br /><br />
+    <div id="message">
+        Please select a circle
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            var circles = document.getElementsByClassName('circle');
+            var pickedCircle;
+            var picked;
+            var randomNumber;
+            var nos = 0;
+            randomNumber = Math.floor(Math.random() * 6) + 1;
+            console.log(randomNumber);
+            var count = 0; var choice = true;
+
+         var anim =   setInterval(function(){
+                console.log(nos)
+                console.log('break')
+                circles[nos].style.visibility ='visible';
+                circles[nos].classList.add('animated','flip');
+                nos++;
+                if(nos == 6) {clearInterval(anim)
+                console.log('interval cleared')
+                nos = 0;
+                }
+            },900)
+
+            for (var i = 0; i < circles.length; i++) {
+                
+                circles[i].addEventListener('click', function (event) {
+                    //start
+                    for (var k = 0; k < circles.length; k++) {
+                    if(circles[k].classList.contains('selected')) circles[k].classList.remove('selected')
+                }
+                    //end
+
+                    picked = event.target;
+                    if (!picked.classList.contains('selected')) {
+                        event.target.classList.add('selected');
+                    }
+                    
+                        pickedCircle = picked.innerText;
+
+                    console.log('clicked...circle...', pickedCircle);
+
+                });
+            }
+
+            var fireButton = document.getElementById('trigger-button');
+            fireButton.addEventListener('click', function (event) {
+                if (pickedCircle === undefined) {
+                    var err = document.getElementById('message');
+                    err.style.display = 'block';
+                    return;
+                }
+
+                picked.classList.remove('selected');
+                console.log(randomNumber)
+                if (randomNumber == pickedCircle) {
+                    var endIt = document.getElementById('circles')
+                    endIt.classList.add('animated','wobble')
+                    var ourInterval = setInterval(function () {
+                        var page = document.querySelector('body');
+                        if (choice) {
+                            page.classList.add('red');
+                            count++;
+                            choice = !choice;
+                        } else {
+                            page.classList.remove('red');
+                            count++;
+                            choice = !choice;
+                        }
+
+                        if (count == 6) {
+                            clearInterval(ourInterval);
+                            console.log("interval cleared")
+                            choice = true;
+                            count = 0;
+                        }
+                    }, 200)
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
